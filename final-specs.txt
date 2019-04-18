@@ -1,0 +1,89 @@
+Final Project 
+
+Quick and Dirty Point of Sale Program
+
+This should be written using Node.js.
+
+Due on May 8th.  You will demo in class starting at 4:30 PM
+
+
+#Views
+    - Products
+        - Create
+        - Read
+        - List
+        - Update
+        - Delete
+    - Shopping Cart (Cashier)
+        - Create
+        - Read
+        - List
+    - Customer
+        - Create
+        - Read
+        - List
+        - Update
+        - Delete
+
+#Controls
+    - Product
+    - Sales
+        # tax = 1.07
+        # product
+        # product.quantity
+        - Scan( Product )
+            - quantity < available
+        - Buy( Customer )
+            - AddMember( Customer )
+        - PrintReceipt()
+            - Product x quantity
+            - Total + tax
+            - if !JohnnyCash : 10% OFF
+        - Delete( Product )
+    - Customer
+
+    
+
+
+
+- Products/Items
+    - SKU
+    - Description
+    - Picture/Image
+    - Price
+    - Quantity Available
+
+    Products/Items need to managed with CRUD (Create/Update/Delete) activities
+    A list view of the items available in the system
+
+- Sale/Transaction
+    - Set / Create customer / or "Johny Cash"
+    - Add Items / Qty to transaction
+    - Calculate Sales Tax
+    - Calculate Total (Sales Tax + (Item Price * Qty))
+    - Tender / Pay for Transaction `
+        - Cash
+        - Credit Card
+        - Etc
+    - Transaction is persisted to file
+    - Nice to have support for discounts (Straight percentage or dollar value off)
+
+- Customer (US Based)
+    - First Name
+    - Last Name
+    - Street Address
+    - City
+    - State 
+    - Zip Code
+    - Phone Number
+
+- Data Storage Layer
+    - Should be NoSQL Based Model
+    - File Based Storage, but do MongoDB if you feel like Item
+
+How the application flow should be
+    - POS should start in a mode to start a transaction - Transaction Mode.
+    - You should have an "Admin" screen that allows you to 
+        - Manage items (CRUD Create / Update / Delete)
+        - List customers and view customer details
+    - Transaction mode should allow you to add start/clear a sale

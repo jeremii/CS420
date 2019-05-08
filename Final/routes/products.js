@@ -87,7 +87,7 @@ var getProductSkuNamesList = function() {
         var keyPromises = keylist.map( SKU => {
             return products.read(SKU).then(product => {
                 return { SKU: product.SKU, name: product.name, 
-                    instock: product.instock };
+                    instock: product.instock, price : product.price };
             });
         });
         return Promise.all(keyPromises);
@@ -116,12 +116,22 @@ router.get('/edit', (req, res, next) => {
 
 // Ask to Delete note (destroy)
 router.get('/destroy', (req, res, next) => {
-    products.read(req.query.sku)
+    var thesku = "";
+    if( req.query.SKU != "" )
+    {
+        thesku = req.query.SKU;
+    } 
+    if ( req.query.sku != "" )
+    {
+        thesku = req.query.sku;
+    }
+    log("thesku: "+ thesku );
+    products.read(thesku)
     .then(product => {
         res.render('productdestroy', {
             pageTitle: product ? product.name : "",
             product : product,
-            sku: req.query.sku,
+            sku: thesku,
             breadcrumbs: [
                 { href: '/', text: 'Home' },
                 { active: true, text: 'Delete Product' }
@@ -133,7 +143,7 @@ router.get('/destroy', (req, res, next) => {
 
 // Really destroy product (destroy)
 router.post('/destroy/confirm', (req, res, next) => {
-    products.destroy(req.body.sku)
+    products.destroy(req.body.SKU)
     .then(() => { res.redirect('/'); })
     .catch(err => { next(err); });
 });

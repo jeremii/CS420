@@ -24,7 +24,7 @@ var getProductSkuNamesList = function() {
         var keyPromises = keylist.map( SKU => {
             return products.read(SKU).then(product => {
                 return { SKU: product.SKU, name: product.name, 
-                    instock: product.instock };
+                    instock: product.instock, price : product.price };
             });
         });
         return Promise.all(keyPromises);
@@ -154,7 +154,6 @@ router.post('/save', (req, res, next) => {
     .catch(err => { error(err); next(err); });
 });
 
-getSalesNamesList
 // Read Transaction (read)
 router.get('/viewall', (req, res, next) => {
     getSalesNamesList()
@@ -178,7 +177,6 @@ router.get('/view', (req, res, next) => {
     .then(transaction => {
         customers.read( transaction.customer_id )
         .then( customer => {
-            
             res.render('transactionview', {
                 pageTitle: transaction ? "View Cart " : "",
                 id: req.query.id,

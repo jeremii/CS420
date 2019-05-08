@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link text-warning" href="/">New</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/products/viewall">Products</a>
@@ -31,9 +31,9 @@
 </nav>
 
 <div class="container-fluid">
-    <h2><%= pageTitle %></h2>
+    <h2 class="text-secondary"><%= pageTitle %></h2>
 
-    <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs) { %>
+    <!-- <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs) { %>
     <ol class="breadcrumb">
         <%
         for (var crumb of breadcrumbs) {
@@ -45,6 +45,6 @@
         }
         %>
     </ol>
-    <% } %>
+    <% } %> -->
 </div>
 </header>

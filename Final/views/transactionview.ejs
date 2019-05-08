@@ -25,16 +25,17 @@
         <% for ( var p of productsInCart ) { %>
             <div class="row">
                 <span class="col-sm-6"><label>Name</label><%= p.name %></span>
-                <span class="col-sm-3"><label>Price</label><%= p.price %></span>
+                <span class="col-sm-3"><label>Price</label>$<%= p.price %></span>
                 <span class="col-sm-3"><label>SKU</label><%= p.SKU %></span>
                 <hr />
             </div>
     <% } } %>
     <hr/>
     
-        <div class="row"><span class="col-6"></span><label class="col-2">Sub Total</label><span class="col-3"><%= transaction.totalPrice %></span></div>
-        <div class="row"><span class="col-6"></span><label class="col-2">Tax</label><span class="col-3"><%= transaction.salesTax %></span></div>
-        <div class="row"><span class="col-6"></span><label class="col-2">Total</label><span class="col-3"><%= (parseFloat(transaction.totalPrice) + parseFloat(transaction.salesTax)).toFixed(2) %></span></div>
+        <div class="row"><span class="col-6"></span><label class="col-2">Sub Total</label><span class="col-3">$<%= transaction.totalPrice %></span></div>
+        <div class="row"><span class="col-6"></span><label class="col-2">Tax</label><span class="col-3">$<%= transaction.salesTax %></span></div>
+        <div class="row"><span class="col-6"></span><label class="col-2">Total</label><span class="col-3"><h2 class="inline font-weight-bold text-primary">$ <%= (parseFloat(transaction.totalPrice) + parseFloat(transaction.salesTax)).toFixed(2) %></h2></span></div>
+        
         <hr/>
     <br/>
     <a class="btn btn-success" id="btnplaceorder" href="/transactions/PlaceOrder?id=<%= transaction.id %>" role="button">Place Order</a>

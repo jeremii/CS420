@@ -19,8 +19,8 @@
 <% if ( SKU) { %>
     <div class="row">
     <div class="btn-group col-sm-12">
-        <a class="btn btn-default" id="btndestroyproduct" href="/products/destroy?SKU=<%= SKU %>" role="button">Delete</a>
-        <a class="btn btn-default" id="btneditproduct" href="/products/edit?SKU=<%= SKU %>" role="button">Edit</a>
+        <a class="btn btn-danger" id="btndestroyproduct" href="/products/destroy?sku=<%= SKU %>" role="button">Delete</a>
+        <a class="btn btn-primary" id="btneditproduct" href="/products/edit?sku=<%= SKU %>" role="button">Edit</a>
     </div>
     </div>
 <% } %>

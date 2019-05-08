@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
             pageTitle: 'Transaction Mode',
             customers : customers,
             breadcrumbs: [{ href: '/', text: 'Home' },
-                    { href : '/', text: 'New Transaction'}]
+                    { active: true, text: 'New Transaction'}]
         });
     })
     .catch(err => { console.error('home page '+ err); next(err); });

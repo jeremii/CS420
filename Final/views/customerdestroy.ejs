@@ -13,7 +13,7 @@
 <form method='POST' action='/customers/destroy/confirm'>
 <input type='hidden' name='id' value='<%= customer ? customer.id : "" %>'>
 <p>Delete <%= customer.firstName + " " + customer.lastName %> ?</p>
-<br/><input type='submit' value='DELETE' /> <a class="btn btn-default" href="/customers/view?id=<%= customer.id %>">Cancel</a>
+<br/><input type='submit' value='DELETE' /> <a class="btn btn-primary" href="/customers/view?id=<%= customer.id %>">Cancel</a>
 </form>
 </div></div>
 

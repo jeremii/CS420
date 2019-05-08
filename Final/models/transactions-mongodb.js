@@ -72,7 +72,7 @@ exports.addProduct = function( id, sku )
                 {
                     products = Array.from( transaction.products );
                     products.push(product);
-                    transaction.totalPrice += parseFloat(product.price);
+                    transaction.totalPrice = parseFloat(transaction.totalPrice) + parseFloat(product.price);
                 }
                 var totalPrice = parseFloat(transaction.totalPrice).toFixed(2);
                 var salesTax = (totalPrice*0.07).toFixed(2);

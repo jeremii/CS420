@@ -13,7 +13,7 @@
 <form method='POST' action='/transactions/destroy/confirm'>
 <input type='hidden' name='id' value='<%= transaction ? transaction.id : "" %>'>
 <p>Delete <%= transaction.id %> ?</p>
-<br/><input type='submit' value='DELETE' /> <a class="btn btn-default" href="/transactions/view?id=<%= transaction.id %>">Cancel</a>
+<br/><input class="btn btn-danger" type='submit' value='DELETE' /> <a class="btn btn-warning" href="/transactions/view?id=<%= transaction.id %>">Cancel</a>
 </form>
 </div></div>
 

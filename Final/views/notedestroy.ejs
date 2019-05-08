@@ -13,7 +13,7 @@
 <form method='POST' action='/notes/destroy/confirm'>
 <input type='hidden' name='notekey' value='<%= note ? notekey : "" %>'>
 <p>Delete <%= note.title %> ?</p>
-<br/><input type='submit' value='DELETE' /> <a class="btn btn-default" href="/notes/view?key=<%= notekey %>">Cancel</a>
+<br/><input type='submit' value='DELETE' /> <a class="btn btn-light" href="/notes/view?key=<%= notekey %>">Cancel</a>
 </form>
 <% } else { %>
 <% include not-logged-in %>

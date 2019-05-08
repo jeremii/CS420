@@ -4,22 +4,21 @@ var util = require('util');
 var path = require('path');
 var express = require('express');
 var router = express.Router();
-var notes = require(process.env.NOTES_MODEL ? path.join('..', process.env.NOTES_MODEL) : '../models/notes-memory');
+var products = require( '../models/products-mongodb');
+var customers = require( '../models/customers-mongodb');
 
-const log   = require('debug')('notes:router-home');
-const error = require('debug')('notes:error');
+const log   = require('debug')('basic-pos:router-home');
+const error = require('debug')('basic-pos:error');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var notelist;
-    getKeyTitlesList()
-    .then(notelist => {
-        var user = req.user ? req.user : undefined;
+    getCustomerIdFullNamesList()
+    .then(customers => {
         res.render('index', {
-            title: 'Notes',
-            notelist: notelist,
-            user: user,
-            breadcrumbs: [{ href: '/', text: 'Home' }]
+            pageTitle: 'Transaction Mode',
+            customers : customers,
+            breadcrumbs: [{ href: '/', text: 'Home' },
+                    { href : '/', text: 'New Transaction'}]
         });
     })
     .catch(err => { console.error('home page '+ err); next(err); });
@@ -27,26 +26,40 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 
-var getKeyTitlesList = function() {
-    log('getKeyTitlesList')
-    return notes.keylist()
+var getCustomerIdFullNamesList = function() {
+    log('getCustomerIdFullNamesList')
+    return customers.keylist()
     .then(keylist => {
-        var keyPromises = keylist.map(key => {
-            return notes.read(key).then(note => {
-                return { key: note.key, title: note.title };
+        var keyPromises = keylist.map( id => {
+            return customers.read(id).then(customer => {
+                return { id: customer.id, firstName: customer.firstName,
+                lastName : customer.lastName, phone : customer.phone };
             });
         });
         return Promise.all(keyPromises);
     });
 };
 
-module.exports.socketio = function(io) {
-    var emitNoteTitles = () => {
-        getKeyTitlesList().then(notelist => {
-            io.of('/home').emit('notetitles', { notelist });
+var getKeyNamesList = function() {
+    log('getKeyNamesList')
+    return products.keylist()
+    .then(keylist => {
+        var keyPromises = keylist.map(SKU => {
+            return products.read(SKU).then(product => {
+                return { SKU: product.SKU, name: product.name };
+            });
         });
-    };
-    notes.events.on('notecreated', emitNoteTitles);
-    notes.events.on('noteupdate',  emitNoteTitles);
-    notes.events.on('notedestroy', emitNoteTitles);
+        return Promise.all(keyPromises);
+    });
 };
+
+// module.exports.socketio = function(io) {
+//     var emitProductNames = () => {
+//         getKeyNamesList().then(productlist => {
+//             io.of('/home').emit('productnames', { productlist });
+//         });
+//     };
+//     products.events.on('productcreated', emitProductNames);
+//     products.events.on('productupdate',  emitProductNames);
+//     products.events.on('productdestroy', emitProductNames);
+// };

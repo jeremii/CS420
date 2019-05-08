@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include headerStuff %>
+</head>
+<body>
+        <% include pageHeader %>
+    <div class="container-fluid">
+
+
+<div class="row"><div class="col-xs-12">
+
+<form method='POST' action='/transactions/save'>
+<input type='hidden' name='docreate' value='<%= docreate ? "create" : "update"%>'>
+
+<div class="form-group">
+    <label for="id">id</label>
+    <% if (!docreate) { %>
+        <%= transaction ? transaction.id : "" %>
+        <input  class="form-control" type='hidden' id='id' name='id' value='<%= transaction ? transaction.id : "" %>'/>
+    <% } %>
+</div>
+
+<div class="form-group">
+    <label for="customer_id">Customer ID</label>
+    <input type="text" class="form-control" id='customer_id' name='customer_id' placeholder="Customer ID" value='<%= transaction ? transaction.customer_id : "" %>'>
+</div>
+
+<div class="form-group">
+    <label for="customer_id">Customer ID</label>
+    <input type="text" class="form-control" id='customer_id' name='customer_id' placeholder="Customer ID" value='<%= transaction ? transaction.customer_id : "" %>'>
+</div>
+
+
+
+<% products.forEach( function(product) { %>
+    <div class="row">
+        <div class="col">SKU: <% product.SKU %></div>
+        <div class="col">Name: <% product.name %></div>
+        <div class="col">Description: <% product.description %></div>
+        <div class="col">Price: $ <% product.price %></div>
+    </div>
+<% }); %>
+<div class="form-group">
+    <label for="salesTax">Tax</label> <%= transaction ? transaction.salesTax : "" %>
+</div>
+<div class="form-group">
+    <label for="totalPrice">Grand Total</label> <%= transaction ? transaction.totalPrice : "" %>
+</div>
+
+<button type="submit" class="btn btn-default">Place Order</button>
+
+</form>
+
+<% include footer %>
+</div>
+</body>
+</html>

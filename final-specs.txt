@@ -87,3 +87,45 @@ How the application flow should be
         - Manage items (CRUD Create / Update / Delete)
         - List customers and view customer details
     - Transaction mode should allow you to add start/clear a sale
+
+
+
+User Story: Place Order
+1. VIEW: Home (Customer List)
+    1a: BTN: Select Customer
+        Create Transaction
+        
+2. VIEW: Product List
+    2a: BTN: Add to Cart
+    2b: BTN: Add to Cart
+    2c: BTN: View Cart
+3. VIEW: TransactionEdit
+    3a: BTN: Place Order
+
+User Story: Remove Item from Cart
+1. VIEW: Home
+   1a. BTN: Create Transaction
+2. VIEW: Customer List
+    2a: BTN: Select Customer
+3. VIEW: Product List
+    3a: BTN: Add to Cart
+    3b: BTN: Add to Cart
+    3c: BTN: View Cart
+3. VIEW: TransactionEdit
+    3a: BTN: Remove Item
+    3b: BTN: Remove Item
+
+User Story: Cancel Order
+1. VIEW: Home
+   1a. BTN: Create Transaction
+2. VIEW: Customer List
+    2a: BTN: Cancel Order
+        2a-1: Transaction.closed = true
+if not:
+3. VIEW: Product List
+    3a: BTN: Cancel Order
+        3a-1: Transaction.closed = true
+if not:
+4. VIEW: TransactionEdit
+    4a: BTN: Cancel Order
+        4a-1: Transaction.closed = true

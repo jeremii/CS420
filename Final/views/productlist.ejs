@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include headerStuff %>
+</head>
+<body>
+    <% include pageHeader %>
+  <div class="container-fluid">
+
+
+<a class="btn btn-success" id="btnaddproduct" href='/products/add'>New Product</a>
+<hr/>
+
+  <% for (var product of productlist) { %>
+    <div class="row">
+      
+        <div class="col-6">
+        <img src="<%= product.image %>" />
+        <a href="/products/view?SKU=<%=product.SKU%>"><%= product.name %></a>
+        </div>
+        <div class="col-3"><label>Stock</label><%= product.instock %>
+        <% if ( typeof transaction !== 'undefined') { %>
+          <a class="btn btn-success" href="/transactions/AddOne?id=<%= transaction.id %>&sku=<%= product.SKU %>">Buy</a>
+        <% } %>
+          </div>
+      <div class="col-3">
+        <a class="btn btn-primary" href="/products/edit?sku=<%= product.SKU %>">Edit</a>
+        <a class="btn btn-danger" href="/products/destroy?sku=<%= product.SKU %>">Delete</a>
+      </div>
+    </div>
+    <hr/>
+  <% } %>
+
+
+<% include footer %>
+<!-- 
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).ready(function () {
+  var socket = io('/home');
+  socket.on('producttitles', function(data) {
+    var notelist = data.notelist;
+    $('#producttitles').empty();
+    for (var i = 0; i < productlist.length; i++) {
+      productdata = productlist[i];
+      $('#producttitles')
+      .append('<a class="btn btn-lg btn-block btn-default" href="/products/view?SKU='+
+                productdata.SKU +'">'+ productdata.name +'</a>');
+    }
+  });
+});
+</script> -->
+
+</div>
+</body>
+</html>

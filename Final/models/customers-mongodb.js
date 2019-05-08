@@ -7,7 +7,9 @@ const MongoClient = require('mongodb').MongoClient;
 const log         = require('debug')('basic-pos:mongodb-model');
 const error       = require('debug')('basic-pos:error');
 
-const Product     = require('./Product');
+const Customer     = require('./Customer');
+
+const uuid = require('uuid/v4');
 
 var db;
 
@@ -27,79 +29,63 @@ exports.connectDB = function() {
         });
     });
 };
-exports.create = function(SKU, name, description, price, instock, image) {
+exports.create = function(id, firstName, lastName, streetAddress, streetAddress2,
+     city, state, zip, phone) {
     return exports.connectDB()
     .then(db => {
-        var obje = new Product(SKU, name, description, price, instock, image);
-        var collection = db.collection('products');
+        id = id == null ? uuid() : id;
+        var obje = new Customer( id, firstName, lastName, streetAddress, streetAddress2, city, state, zip, phone);
+        var collection = db.collection('customers');
         log('CREATE '+ util.inspect(obje));
-        return collection.insertOne({
-            SKU: SKU, name: name, description: description, price:price, instock:instock, image:image
+        return collection.insertOne({ id:id,
+            firstName: firstName, lastName: lastName, streetAddress: streetAddress, streetAddress2:streetAddress2, city:city, state:state, zip:zip, phone:phone
         }).then(result => { return obje; });
     });
 };
 
-exports.update = function(SKU, name, description, price, instock, image) {
+exports.update = function(id, firstName, lastName, streetAddress, streetAddress2, city, state, zip, phone) {
     return exports.connectDB()
     .then(db => {
-        var obje = new Product(SKU, name, description, price, instock, image);
-        var collection = db.collection('products');
+        var obje = new Customer(firstName, lastName, streetAddress, streetAddress2, city, state, zip, phone);
+        var collection = db.collection('customers');
         log('UPDATE '+ util.inspect(obje));
-        return collection.updateOne({ SKU: SKU },
-            { $set: { name: name, description: description, price:price, instock:instock, image:image } })
+        return collection.updateOne({ id: id },
+            { $set: { firstName: firstName, lastName: lastName, streetAddress:streetAddress, streetAddress2:streetAddress2, city:city, state:state, zip:zip, phone:phone } })
         .then(result => { return obje; } );
     });
 };
-exports.decrementInstock = function(SKU) {
-    return exports.connectDB()
-    .then(db => {
-        return exports.read( SKU )
-        .then( product => {
-            var obje = new Product(product.SKU, product.name, product.description, product.price, product.instock, product.image);
-            log("product instock: "+ obje.instock);
-            obje.instock = obje.instock - 1;
-            
-            var collection = db.collection('products');
-            log('UPDATE '+ util.inspect(obje));
-            return collection.updateOne({ SKU: SKU },
-                { $set: { instock:obje.instock } })
-            .then(result => { return obje; } );
-        })
-        
-    });
-};
 
-exports.read = function(SKU) {
+exports.read = function(id) {
     return exports.connectDB()
     .then(db => {
-        var collection = db.collection('products');
+        var collection = db.collection('customers');
         // Find some documents
-        return collection.findOne({ SKU: SKU })
+        return collection.findOne({ id: id })
         .then(doc => {
-            var obje = new Product(doc.SKU, doc.name, doc.description, doc.price, doc.instock, doc.image);
+            var obje = new Customer(doc.id, doc.firstName, doc.lastName, doc.streetAddress, doc.streetAddress2, doc.city, doc.state, doc.zip, doc.phone);
             log('READ '+ util.inspect(obje));
             return obje;
         });
     });
 };
 
-exports.destroy = function(SKU) {
+exports.destroy = function(id) {
     return exports.connectDB()
     .then(db => {
-        var collection = db.collection('products');
-        log('DELETE '+ SKU);
-        return collection.findOneAndDelete({ SKU: SKU });
+        var collection = db.collection('customers');
+        log('DELETE '+ id);
+        return collection.findOneAndDelete({ id: id });
     });
 };
 
 exports.keylist = function() {
     return exports.connectDB()
     .then(db => {
-        var collection = db.collection('products');
+        var collection = db.collection('customers');
         return new Promise((resolve, reject) => {
             var keyz = [];
             collection.find({}).forEach(
-                obje => { keyz.push(obje.SKU); },
+                obje => { keyz.push(obje.id); },
                 err  => {
                     if (err) reject(err);
                     else {
@@ -115,7 +101,7 @@ exports.keylist = function() {
 exports.count = function() {
     return exports.connectDB()
     .then(db => {
-        var collection = db.collection('products');
+        var collection = db.collection('customers');
         return new Promise((resolve, reject) => {
             collection.count({}, (err, count) => {
                 if (err) reject(err);

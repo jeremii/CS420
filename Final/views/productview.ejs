@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include headerStuff %>
+</head>
+<body>
+        <% include pageHeader %>
+    <div class="container-fluid">
+
+
+<div class="row"><div class="col-xs-12">
+<img src="<%= product ? product.image : '' %>" />
+<h3 id="producttitle"><%= product ? product.name : "" %></h3>
+<p id="productbody"><%= product ? product.description : "" %></p>
+<p id="productbody"><%= product ? product.instock : "" %></p>
+<p>Key: <span id="SKU"><%= SKU %></span></p>
+</div></div>
+
+<% if ( SKU) { %>
+    <div class="row">
+    <div class="btn-group col-sm-12">
+        <a class="btn btn-default" id="btndestroyproduct" href="/products/destroy?SKU=<%= SKU %>" role="button">Delete</a>
+        <a class="btn btn-default" id="btneditproduct" href="/products/edit?SKU=<%= SKU %>" role="button">Edit</a>
+    </div>
+    </div>
+<% } %>
+
+<% include footer %>
+
+<% if (SKU) { %>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).ready(function () {
+    io('/view').on('productupdate', function(product) {
+        if (product.SKU === "<%= SKU %>") {
+            $('h3#productname').empty();
+            $('h3#productname').text(product.name);
+            $('p#productbody').empty();
+            $('p#productbody').text(product.description);
+        }
+    });
+    io('/view').on('productdestroy', function(data) {
+        // If the deleted product is the one we're viewing
+        // then the user needs to stop viewing the product
+        if (data.SKU === "<%= SKU %>") {
+            // redirect browser window to home page
+            window.location.href = "/";
+        }
+    });
+    
+});
+</script>
+<% } %>
+
+</div>
+</body>
+</html>

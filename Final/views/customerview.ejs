@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include headerStuff %>
+</head>
+<body>
+        <% include pageHeader %>
+    <div class="container-fluid">
+
+
+<div class="row"><div class="col-xs-12">
+<h2 id="customername"><%= customer ? customer.firstName + " " + customer.lastName : "" %></h2>
+<p><label>ID</label> <span id="id"><%= id %></span></p>
+<p id="customerbody"><label>Phone</label><%= customer ? customer.phone : "" %></p>
+<p id="customerbody"><label>Street Address</label><%= customer ? customer.streetAddress : "" %></p>
+<p id="customerbody"><label>Street Address 2</label><%= customer ? customer.streetAddress2 : "" %></p>
+<p id="customerbody"><label>City</label><%= customer ? customer.city : "" %></p>
+<p id="customerbody"><label>State</label><%= customer ? customer.state : "" %></p>
+<p id="customerbody"><label>Zip Code</label><%= customer ? customer.zip : "" %></p>
+
+</div></div>
+
+<% if ( id) { %>
+    <div class="row">
+    <div class="btn-group col-sm-12">
+        <a class="btn btn-default" id="btndestroycustomer" href="/customers/destroy?id=<%= id %>" role="button">Delete</a>
+        <a class="btn btn-default" id="btneditcustomer" href="/customers/edit?id=<%= id %>" role="button">Edit</a>
+    </div>
+    </div>
+<% } %>
+
+<% include footer %>
+
+</div>
+</body>
+</html>

@@ -17,19 +17,21 @@ const FileStore = require('session-file-store')(session);
 const passportSocketIo = require("passport.socketio");
 
 const routes = require('./routes/index');
-const users  = require('./routes/users'); 
-const notes  = require('./routes/notes');
+// const users  = require('./routes/users');
+const products  = require('./routes/products');
+const customers = require('./routes/customers');
+const transactions = require('./routes/transactions');
 
-const log   = require('debug')('notes:server');
-const error = require('debug')('notes:error');
+const log   = require('debug')('basic-pos:server');
+const error = require('debug')('basic-pos:error');
 
 process.on('uncaughtException', function(err) {
   error("I've crashed!!! - "+ (err.stack || err));
 });
 
-const sessionCookie = 'notes.sid';
+const sessionCookie = 'basic-pos.sid';
 const sessionSecret = 'keyboard mouse';
-const sessionStore  = new FileStore({ path: process.env.NOTES_SESSIONS_DIR ? process.env.NOTES_SESSIONS_DIR : "sessions" });
+//const sessionStore  = new FileStore({ path: process.env.POS_SESSIONS_DIR ? process.env.POS_SESSIONS_DIR : "sessions" });
 
 var app = express();
 
@@ -40,12 +42,12 @@ var app = express();
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 
-io.use(passportSocketIo.authorize({
-  cookieParser: cookieParser, 
-  key:          sessionCookie,
-  secret:       sessionSecret,
-  store:        sessionStore
-}));
+// io.use(passportSocketIo.authorize({
+//   cookieParser: cookieParser, 
+//   key:          sessionCookie,
+//   secret:       sessionSecret,
+//   store:        sessionStore
+// }));
 
 /**
  * Get port from environment and store in Express.
@@ -84,22 +86,24 @@ app.use('/vendor/bootstrap/fonts', express.static(path.join(__dirname, 'bower_co
 app.use('/vendor/bootstrap/js', express.static(path.join(__dirname, 'bower_components', 'bootstrap', 'dist', 'js')));
 app.use('/vendor/jquery', express.static(path.join(__dirname, 'bower_components', 'jquery', 'dist')));
 
-app.use(session({
-  store: sessionStore,
-  secret: sessionSecret,
-  key: sessionCookie,
-  resave: true,
-  saveUninitialized: true
-}));
+// app.use(session({
+//   store: sessionStore,
+//   secret: sessionSecret,
+//   key: sessionCookie,
+//   resave: true,
+//   saveUninitialized: true
+// }));
 
-users.initPassport(app);
+//users.initPassport(app);
 
 app.use('/', routes);
-app.use('/users', users.router);
-app.use('/notes', notes);
+// app.use('/users', users.router);
+app.use('/products', products);
+app.use('/customers', customers);
+app.use('/transactions', transactions);
 
-routes.socketio(io);
-notes.socketio(io);
+// routes.socketio(io);
+// notes.socketio(io);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

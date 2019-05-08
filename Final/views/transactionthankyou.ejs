@@ -4,21 +4,20 @@
 <% include headerStuff %>
 </head>
 <body>
-    <% include pageHeader %>
-  <div class="container-fluid">
+<div class="container-fluid">
 
-
-
-<h3>Select Customer</h3>
-<% for( var customer of customers ){ %>
-  <div class="row">
-      <div class="col-sm"><h4><%= customer.firstName + " " + customer.lastName %></h4></div>
-      <span class="col-sm"><label>Phone</label><%= customer.phone %></span>
-      <!-- <span class="col-sm"><label>ID</label><%= customer.id %></span> -->
-      <span class="col-sm"><a class="btn btn-success" id="btnSelectCustomer" href="/transactions/AddProducts?customer_id=<%= customer.id %>" role="button">Select Customer</a></span>
-      <hr />
-  </div>
-<% }; %>
+<center>
+<br/>
+<br/>
+<br/>
+<br/>
+<h1>Thank you!</h1>
+<br/>
+<br/>
+<br/>
+<br/>
+<a class="btn btn-primary" id="btnnewtransaction" href="/" role="button">Start New Transaction</a>
+</center>
 
 <% include footer %>
 <!-- 

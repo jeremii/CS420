@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include headerStuff %>
+</head>
+<body>
+<% include pageHeader %>
+<div class="container-fluid">
+<a class="btn btn-success btn-lg" id="btnaddcustomer" href='/customers/add'>New Customer</a>
+<hr/>
+
+<% for( var customer of customers ){ %>
+    <div class="row">
+        <div class="col"><label>Name</label><h4><a href="/customers/view?id=<%= customer.id %>"><%= customer.name %></a></h4></div>
+        <div class="col"><label>Phone</label><%= customer.phone %></div>
+        <div class="col"><label>ID</label><%= customer.id %></div>        
+        <% if( typeof transaction !== 'undefined'){ %>
+            <div class="col"><a class="btn btn-success" id="btnSelectCustomer" href="/transactions/AddProducts?customer_id=<%= customer.id %>" role="button">Select Customer</a></div>
+        <% } %>
+    </div>
+    <hr/>
+<% } %>
+
+<% include footer %>
+
+</div>
+</body>
+</html>
